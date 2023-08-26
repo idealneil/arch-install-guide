@@ -113,7 +113,7 @@ cat /mnt/etc/fstab (to check all mount points are correct)
 arch-chroot /mnt /bin/bash
 ```
 
-### Creat a swap File
+### Create a swap file
 
 If you want a larger swap file, change count=512 to 1024, 2048 etc.
 
