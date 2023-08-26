@@ -45,7 +45,7 @@ Use 'lsblk' to see what hard drives are attached to your device. It will likely 
 cfdisk /dev/sda  (or cfdisk /dev/nvme0n1)
 ```
 
-- Create boot and root partitions. Traditionally you would a swap partition, but we will create a swap file later in the installation. If you have mulitple hard dives, consider setting up the second (larger drive) as your home partition.
+- Create boot and root partitions. Traditionally you would have a swap partition, but we will create a swap file later in the installation. If you have mulitple hard dives, set up the second (larger drive) as your home partition.
 
 Example layout:
 
@@ -192,7 +192,7 @@ EDITOR=nano visudo
 If you have an AMD system use 'amd-ucode'. Use wireless_tools if you have wifi
 
 ```
-pacman -S intel-ucode networkmanager efibootmgr base-devel os-prober mtools dosfstools linux-headers wireless_tools dialogg
+pacman -S intel-ucode networkmanager efibootmgr base-devel os-prober mtools dosfstools linux-headers wireless_tools dialog
 ```
 
 ### EFI Boot loader
@@ -281,3 +281,4 @@ reboot
 ```
 
 Remove the installation media.
+Login as your user ready for the next stage. 
