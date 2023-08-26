@@ -23,6 +23,7 @@ ip a
 - For wireless use iwctl
 
 ```
+iwctl
 device list
 station wlan0 scan
 station wlan0 get-networks
