@@ -196,7 +196,7 @@ pacman -S intel-ucode networkmanager efibootmgr base-devel os-prober mtools dosf
 
 ### EFI Boot loader
 
-Install systemd-boot. Edit the loader.conf 
+Install systemd-boot 
 
 ```
 bootctl –path=/boot install
