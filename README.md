@@ -117,7 +117,7 @@ arch-chroot /mnt /bin/bash
 
 If you want a larger swap file, change count=512 to 1024, 2048 etc.
 
-Add the /swapfile entry to the bottom of the fstab file. Use Tab as your spaces.
+Add the /swapfile entry to the bottom of the fstab file. Use Tabs as your spaces.
 
 ```
 dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
