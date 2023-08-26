@@ -102,7 +102,7 @@ pacstrap -i /mnt base linux linux-firmware sudo nano
 ### Fstab
 
 ```
-genfstab -U -p /mnt >> /mnt/etc/fstab
+genfstab -U /mnt >> /mnt/etc/fstab
 
 cat /mnt/etc/fstab (to check all mount points are correct)
 ```
@@ -117,9 +117,7 @@ arch-chroot /mnt /bin/bash
 
 If you want a larger swap file, change count=512 to 1024, 2048 etc.
 
-Add the /swapfile entry to the bottom of the fstab file. Make sure you tab between /swapfile    none    swap    defaults    0    0
-
-Don't use spaces
+Add the /swapfile entry to the bottom of the fstab file. Use Tab as your spaces.
 
 ```
 dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
