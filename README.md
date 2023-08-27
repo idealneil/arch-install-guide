@@ -1,10 +1,8 @@
 # Arch Linux Installation Guide
 
-This is my personal install guide for Arch Linux, which include EFI boot and a swap file.
+This is my personal install guide for Arch Linux. I've used this successfully many times. I like to use systemd boot instead of grub and and a swap file instead of a dedicated partition.
 
-## Pre-installation
-
-Before installing, make sure to:
+## Before Installing
 
 - Download the latest ISO file from [here](https://www.archlinux.org/download/).
 - Write the ISO to a USB flash drive. [Rufus](https://rufus.ie) (Windows) or Disk Image Writer (Linux)
