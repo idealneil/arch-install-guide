@@ -18,7 +18,7 @@ If you have an ethernet cable connected to your device, the boot process should 
 ip a
 ```
 
-- For wireless use iwctl
+- For wireless, set up the connection using iwctl
 
 ```
 iwctl
@@ -44,14 +44,14 @@ Use 'lsblk' to see what hard drives are attached to your device. It will likely 
 cfdisk /dev/sda  (or cfdisk /dev/nvme0n1)
 ```
 
-- Create boot and root partitions. Traditionally you would have a swap partition, but we will create a swap file later in the installation. If you have mulitple hard dives, set up the second (larger drive) as your home partition.
+Create boot and root partitions. We will create a swap file later in the installation. If you have mulitple hard dives, set up the larger drive as your home partition.
 
 Example layout:
 
 ```
 sda1    /boot    1G    EFI partition
 sda2    /root    Rest of space on sda (Linux file system)
-sdb1    /home    (or /dev/nvme0n1p1 ~ optional if you have an extra drive)
+sdb1    /home    (or /dev/nvme0n1p1 - Linux file system)
 ```
 
 ### Format the partitions
@@ -66,7 +66,7 @@ mkfs.ext4 /dev/sdb1 or /dev/nvme0n1p1 (optional for home partition)
 
 ### Mount the file systems
 
-Mount the partitions in this order:
+Mount your root partition first:
 
 ```
 mount /dev/sda2 /mnt
@@ -85,9 +85,7 @@ Check that all of the partitions are mounted correctly
 lsblk
 ```
 
-## Installation
-
-### Base install
+## Base install
 
 ```
 pacstrap -i /mnt base linux linux-firmware sudo nano
@@ -113,15 +111,17 @@ arch-chroot /mnt /bin/bash
 
 ### Create a swap file
 
-If you want a larger swap file, change count=512 to 1024, 2048 etc.
+If you want a larger swap file, change count=1024 to 2048 etc.
 
 Add the /swapfile entry to the bottom of the fstab file. Use Tabs as your spaces.
 
 ```
-dd if=/dev/zero of=/swapfile bs=1M count=512 status=progress
+dd if=/dev/zero of=/swapfile bs=1M count=1024 status=progress
 chmod 0600 /swapfile
 mkswap -U clear /swapfile
 swapon /swapfile
+```
+```
 nano /etc/fstab
 /swapfile none swap defaults 0 0
 ```
@@ -139,23 +139,20 @@ nano /etc/locale.gen
 Remove the hash (uncomment) for your language.
 
 Mine is English NZ (#en_NZ.UTF-8 UTF-8)
+If you intend to play Steam games, uncomment US UTF-8 as well
 
 Save the file and exit
-
 ```
 en_NZ.UTF-8 UTF-8
 ```
 
-Then:
-
+Generate the local regions
 ```
 locale-gen
 
 echo "LANG=en_NZ.UTF-8"" > /etc/locale.conf
 ```
-
 Set the clock to UTC
-
 ```
 hwclock --systohc --utc
 date (to check that it is correct)
@@ -184,7 +181,31 @@ EDITOR=nano visudo
 #%wheel AL=(ALL)ALL (uncomment hash)
 ```
 
-### Install needed files for later
+### Network configuration
+
+Create the hostname file:
+
+```
+echo myhostname > /etc/hostname
+```
+
+- Note: change `myhostname` to whatever you want
+
+Add matching entries to hosts:
+
+```
+nano /etc/hosts
+```
+
+It should look like this:
+
+```
+127.0.0.1      localhost
+::1            localhost
+127.0.1.1      myhostname.localdomain    myhostname
+```
+
+### Install additional packages
 
 If you have an AMD system use 'amd-ucode'. Use wireless_tools if you have wifi
 
@@ -215,13 +236,14 @@ console-mode keep
 
 
 
-Create a boot entry in `/boot/loader/entries/arch.conf`, replacing `/dev/sda2` with your root partition:
+Create a boot entry in `/boot/loader/entries/arch.conf`, replace `/dev/sda2` with your root partition:
 
 ```
 nano /boot/loader/entries/arch.conf
 ```
 
-It should look like this. Make sure you 'TAB', don't use spaces
+Make sure you 'TAB' between sections, don't use spaces
+E.g title TAB Arch Linux
 
 ```
 title          Arch Linux
@@ -233,31 +255,7 @@ options        root=/dev/sda2 rw
 
 Save and exit the file.
 
-### Network configuration
-
-Create the hostname file:
-
-```
-echo myhostname > /etc/hostname
-```
-
-- Note: change `myhostname` to whatever you want
-
-Add matching entries to hosts:
-
-```
-nano /etc/hosts
-```
-
-It should look like this:
-
-```
-127.0.0.1      localhost
-::1            localhost
-127.0.1.1      myhostname.localdomain    myhostname
-```
-
-Enable networking:
+## Enable networking:
 
 ```
 systemctl enable NetworkManager
