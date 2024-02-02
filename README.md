@@ -44,7 +44,7 @@ Use 'lsblk' to see what hard drives are attached to your device. It will likely 
 cfdisk /dev/sda  (or cfdisk /dev/nvme0n1)
 ```
 
-Create boot and root partitions. We will create a swap file later in the installation. If you have mulitple hard dives, set up the larger drive as your home partition.
+Create boot and root partitions. We will create a swap file later in the installation. If you have mulitple hard drives, set up the larger drive as your home partition.
 
 Example layout:
 
